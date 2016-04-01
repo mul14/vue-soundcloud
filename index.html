@@ -8,11 +8,46 @@
           integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous">
     <style>
         body {
-            padding-top: 80px;
+            padding-top: 140px;
         }
 
         a.nav-link {
             /*color: black !important;*/
+        }
+
+        .navbar {
+            padding: 0;
+        }
+
+        .nav-top {
+            padding: 10px 0;
+            background: #373A3C;
+        }
+
+        .nav-bottom {
+            padding: 0;
+            background: #E3E6E3;
+        }
+
+        .nav-bottom .flex-container {
+            display: flex;
+        }
+
+        .nav-bottom a.nav-link {
+            padding: 10px 0;
+            text-align: center;
+            display: inline-flex;
+            flex-grow: 100;
+            color: #373A3C !important;
+            justify-content: center;
+            flex-direction: column;
+            border-bottom: 4px solid transparent;
+        }
+
+        .nav-bottom a.nav-link:hover {
+            background: #373A3C;
+            color: white !important;
+            border-bottom: 4px solid #899137;
         }
 
         .card a {
@@ -45,46 +80,36 @@
 
 <div id="app">
 
-    <nav class="navbar navbar-dark bg-inverse navbar-fixed-top">
-        <div class="container">
-            <a class="navbar-brand" href="#"><strong>Vue</strong> SoundCloud</a>
-            <ul class="nav navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="#" @click="doQuery('rock', 'tags')">Rock</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#" @click="doQuery('pop', 'tags')">Pop</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#" @click="doQuery('jpop', 'tags')">Jpop</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#" @click="doQuery('kpop', 'tags')">Kpop</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#" @click="doQuery('progressive', 'tags')">Progressive</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#" @click="doQuery('chill', 'tags')">Chill</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#" @click="doQuery('chiptunes', 'tags')">Chiptunes</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#" @click="doQuery('house', 'tags')">House</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#" @click="doQuery('dubstep', 'tags')">Dubstep</a>
-                </li>
-            </ul>
-            <div class="form-inline pull-xs-right">
-                <input class="form-control" type="text" v-model="query" placeholder="Search">
-                <button type="button" @click="doQuery()" class="btn btn-secondary-outline">
-                    <i class="fa fa-search"></i>
-                </button>
+    <div class="navbar navbar-dark bg-inverse navbar-fixed-top">
+        <div class="nav-top">
+            <div class="container">
+                <a class="navbar-brand" href="#"><strong>Vue</strong> SoundCloud</a>
+                <div class="form-inline pull-xs-right">
+                    <div class="input-group">
+                        <input class="form-control" type="text" v-model="query" placeholder="Search">
+                        <span class="input-group-btn">
+                            <button type="button" @click="doQuery()" class="btn btn-success-outline">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </span>
+                    </div>
+                </div>
             </div>
         </div>
-    </nav>
+        <div class="nav-bottom">
+            <div class="container flex-container">
+                <a class="nav-link" href="#" @click="doQuery('rock', 'tags')">Rock</a>
+                <a class="nav-link" href="#" @click="doQuery('pop', 'tags')">Pop</a>
+                <a class="nav-link" href="#" @click="doQuery('jpop', 'tags')">Jpop</a>
+                <a class="nav-link" href="#" @click="doQuery('kpop', 'tags')">Kpop</a>
+                <a class="nav-link" href="#" @click="doQuery('progressive', 'tags')">Progressive</a>
+                <a class="nav-link" href="#" @click="doQuery('chill', 'tags')">Chill</a>
+                <a class="nav-link" href="#" @click="doQuery('chiptunes', 'tags')">Chiptunes</a>
+                <a class="nav-link" href="#" @click="doQuery('house', 'tags')">House</a>
+                <a class="nav-link" href="#" @click="doQuery('dubstep', 'tags')">Dubstep</a>
+            </div>
+        </div>
+    </div>
 
     <!--<audio :src="stream_url"></audio>-->
 
