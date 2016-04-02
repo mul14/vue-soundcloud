@@ -231,11 +231,19 @@
             },
 
             play: function(stream_url) {
-                this.stream_url = stream_url + '?client_id=' + SC_CLIENT_ID;
+
+                stream_url = stream_url + '?client_id=' + SC_CLIENT_ID;
 
                 if (audio.paused) {
-                    audio.setAttribute('src', this.stream_url);
-                    audio.load();
+
+                    if (stream_url != this.stream_url) {
+                        // Load new audio
+                        this.stream_url = stream_url;
+                        audio.setAttribute('src', this.stream_url);
+                        audio.load();
+                    }
+
+                    // Continue audio
                     audio.play();
 
                     this.isPlayed = true;
