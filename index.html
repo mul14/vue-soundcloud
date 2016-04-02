@@ -169,7 +169,6 @@
 
 <script src="https://cdn.jsdelivr.net/vue/1.0.20/vue.js"></script>
 <script src="https://connect.soundcloud.com/sdk/sdk-3.0.0.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.7.0/lodash.min.js"></script>
 <script>
     Vue.debug = true;
 
@@ -211,7 +210,7 @@
                 SC.get('/tracks', options).then(function(tracks) {
                     var newData = [];
 
-                    _.each(tracks, function(track) {
+                    tracks.forEach(function(track) {
 
                         track.artwork_url_500 = 'http://placehold.it/500?text=No+Artwork';
                         track.artwork_url_300 = 'http://placehold.it/300?text=No+Artwork';
@@ -222,10 +221,10 @@
                         }
 
                         newData.push(track);
-                    })
+                    });
 
                     self.results = newData;
-                })
+                });
 
                 console.log(this.results);
             },
