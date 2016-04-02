@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue - Sound Cloud</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet"
+          integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous">
+    <style>
+        body {
+            padding: 140px 0 40px;
+        }
+
+        a.nav-link {
+            /*color: black !important;*/
+        }
+
+        .navbar {
+            padding: 0;
+        }
+
+        .nav-top {
+            padding: 10px 0;
+            background: #373A3C;
+        }
+
+        .nav-bottom {
+            padding: 0;
+            background: #E3E6E3;
+        }
+
+        .nav-bottom .flex-container {
+            display: flex;
+        }
+
+        .nav-bottom a.nav-link {
+            padding: 10px 0;
+            text-align: center;
+            display: inline-flex;
+            flex-grow: 100;
+            color: #373A3C !important;
+            justify-content: center;
+            flex-direction: column;
+            border-bottom: 4px solid transparent;
+        }
+
+        .nav-bottom a.nav-link:hover {
+            background: #373A3C;
+            color: white !important;
+            border-bottom: 4px solid #899137;
+        }
+
+        .card a {
+            color: lightslategrey;
+        }
+
+        .artwork {
+            height: 200px;
+            background-image: url('http://placehold.it/500?text=No+Artwork');
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: cover;
+        }
+
+        .play-status {
+            height: 100%;
+            color: white;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        .artwork:hover .play-status {
+            display: flex;
+        }
+    </style>
+</head>
+<body>
+
+<div id="app">
+
+    <div class="navbar navbar-dark bg-inverse navbar-fixed-top">
+        <div class="nav-top">
+            <div class="container">
+                <a class="navbar-brand" href="#"><strong>Vue</strong> SoundCloud</a>
+                <div class="form-inline pull-xs-right">
+                    <div class="input-group">
+                        <input class="form-control" type="text" v-model="query" placeholder="Search">
+                        <span class="input-group-btn">
+                            <button type="button" @click="doQuery()" class="btn btn-success-outline">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="nav-bottom">
+            <div class="container flex-container">
+                <a class="nav-link" href="#" @click="doQuery('rock', 'tags')">Rock</a>
+                <a class="nav-link" href="#" @click="doQuery('pop', 'tags')">Pop</a>
+                <a class="nav-link" href="#" @click="doQuery('jpop', 'tags')">Jpop</a>
+                <a class="nav-link" href="#" @click="doQuery('kpop', 'tags')">Kpop</a>
+                <a class="nav-link" href="#" @click="doQuery('progressive', 'tags')">Progressive</a>
+                <a class="nav-link" href="#" @click="doQuery('chill', 'tags')">Chill</a>
+                <a class="nav-link" href="#" @click="doQuery('chiptunes', 'tags')">Chiptunes</a>
+                <a class="nav-link" href="#" @click="doQuery('house', 'tags')">House</a>
+                <a class="nav-link" href="#" @click="doQuery('dubstep', 'tags')">Dubstep</a>
+            </div>
+        </div>
+    </div>
+
+    <!--<audio :src="stream_url"></audio>-->
+
+    <div class="container">
+        <div class="row">
+            <div v-for="(index, track) in results">
+
+
+                <div class="col-xs-12 col-md-6 col-lg-4 col-xl-3">
+
+                    <div class="card" style="overflow: hidden;">
+                        <div class="artwork"
+                             @click="play(track.stream_url)"
+                             :style="{ backgroundImage: 'url(' + track.artwork_url_500 + ')' }">
+                            <div class="play-status">
+                                <i class="fa fa-4x fa-play" v-show="!isPlayed"></i>
+                                <i class="fa fa-4x fa-pause" v-show="isPlayed"></i>
+                            </div>
+                        </div>
+
+                        <div class="card-text" style="background: #fafafa;">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <img :src="track.user.avatar_url" :alt="track.title" class="img-fluid"/>
+                                </div>
+                                <div class="col-xs-9">
+                                    <div class="row">
+                                        <a href="#" @click="doQuery(track.user.permalink)"
+                                           style="width: 1800px; display: inline-block;">
+                                            <small>#{{ track.title }}</small>
+                                        </a>
+                                    </div>
+                                    <div class="row">
+                                        <a href="#" @click="doQuery(track.user.permalink)">
+                                            <small>{{ track.user.username }}</small>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--<pre>{{ $data | json }}</pre>-->
+    </div>
+
+    <nav class="navbar navbar-fixed-bottom navbar-light bg-faded">
+        <div class="container">
+            // Player here
+        </div>
+    </nav>
+
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/vue/1.0.20/vue.js"></script>
+<script src="https://connect.soundcloud.com/sdk/sdk-3.0.0.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.7.0/lodash.min.js"></script>
+<script>
+    Vue.debug = true;
+
+    const SC_CLIENT_ID = 'YOUR_CLIENT_ID';
+
+    var audio = new Audio();
+
+    new Vue({
+
+        el: '#app',
+
+        data: {
+            query: '',
+            stream_url: '',
+            isPlayed: false,
+            results: []
+        },
+
+        ready: function() {
+            this.soundcloudInit();
+
+            this.doQuery('thanika');
+        },
+
+        methods: {
+
+            doQuery: function(query, queryType) {
+                var self = this;
+                var options = {
+                    limit: 120
+                };
+
+                if (queryType == 'tags') {
+                    options.tags = query;
+                } else {
+                    options.q = query;
+                }
+
+                SC.get('/tracks', options).then(function(tracks) {
+                    var newData = [];
+
+                    _.each(tracks, function(track) {
+
+                        track.artwork_url_500 = 'http://placehold.it/500?text=No+Artwork';
+                        track.artwork_url_300 = 'http://placehold.it/300?text=No+Artwork';
+
+                        if (track.artwork_url) {
+                            track.artwork_url_500 = track.artwork_url.replace('large', 't500x500');
+                            track.artwork_url_300 = track.artwork_url.replace('large', 't300x300');
+                        }
+
+                        newData.push(track);
+                    })
+
+                    self.results = newData;
+                })
+
+                console.log(this.results);
+            },
+
+            play: function(stream_url) {
+                this.stream_url = stream_url + '?client_id=' + SC_CLIENT_ID;
+
+                if (audio.paused) {
+                    audio.setAttribute('src', this.stream_url);
+                    audio.load();
+                    audio.play();
+
+                    this.isPlayed = true;
+                } else {
+                    audio.pause();
+
+                    this.isPlayed = false;
+                }
+            },
+
+            soundcloudInit: function() {
+
+                SC.initialize({
+                    client_id: SC_CLIENT_ID,
+                    redirect_uri: 'http://127.0.0.1:8080/callback.html'
+                });
+
+                var getConnections = function() {
+                    return SC.get('/me/connections');
+                };
+
+
+            }
+
+        }
+    })
+
+</script>
+</body>
+</html>
